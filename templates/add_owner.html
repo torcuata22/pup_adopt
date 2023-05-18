@@ -3,9 +3,12 @@
 <div class="jumbotron">
     <h1>Add an Owner</h1>
     <p>Recently adopted one of our pups? Add your name to our database!</p>
-    <form class="" action="{{url_for('add_owner')}}" method="POST">
+    <form method="POST">
         {{form.hidden_tag()}}
-        
+        {{form.name.label}} {{form.name()}}
+        {{form.pup_id.label}} {{form.pup_id()}}
+        {{form.submit}}
+
     </form>
 </div>
 
