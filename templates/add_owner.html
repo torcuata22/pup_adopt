@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron">
+    <h1>Add an Owner</h1>
+    <p>Recently adopted one of our pups? Add your name to our database!</p>
+    <form class="" action="{{url_for('add_owner')}}" method="POST">
+        {{form.hidden_tag()}}
+        
+    </form>
+</div>
+
+{% endblock %}

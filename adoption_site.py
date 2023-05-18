@@ -21,12 +21,36 @@ class Puppy(db.Model):
     __tablename__ = 'puppies'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.Text)
+    #1:1 with owner:
+    owner = db.relationship('Owner',backref='puppy',uselist=False)
 
     def __init__(self,name):
         self.name = name
 
     def __repr__(self):
-        return f"Puppy name: {self.name}"
+        if self.owner:
+            return f"Puppy name: {self.name}, and their owner is:{self.owner.name}"
+        else:
+            return f"Puppy name: {self.name} and they're still looking for a home"
+    
+class Owner(db.Model):
+    __tablename__ = "owners"
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.Text)
+    #1:1 with puppy:
+    puppy_id = db.Column(db.Integer, db.ForeignKey('puppies.id'))
+
+    def __init__(self, name, puppy_id):
+        self.name = name
+        self.puppy_id = puppy_id
+
+    def __repr__(self):
+        return f"Owner name: {self.name}"
+
+
+
+
+
     
 #view functions (they use forms):
 
@@ -34,18 +58,19 @@ class Puppy(db.Model):
 def index():
     return render_template('home.html')
 
-@app.route('/add', methods = ['GET','POST'])
+@app.route('/add', methods=['GET', 'POST'])
 def add_pup():
     form = AddForm()
-    if form.validate_on_submit():
-        name = form.name.data 
+    if form.validate():
+        name = form.name.data
         new_pup = Puppy(name)
         db.session.add(new_pup)
         db.session.commit()
 
         return redirect(url_for('list_pup'))
-    
-    return render_template('add.html')
+
+    return render_template('add.html', form=form)
+
 
 @app.route('/list')
 def list_pup():
@@ -54,12 +79,12 @@ def list_pup():
 
 @app.route('/delete', methods=['GET','POST'])
 def del_pup():
-    form = DelForm
+    form = DelForm()
     if form.validate_on_submit():
-        id = form.id.data("Remove Puppy")
+        id = form.id.data
         pup = Puppy.query.get(id)
         db.session.delete(pup)
-        db.session.comit()
+        db.session.commit()
 
         return redirect(url_for('list_pup'))
     return render_template('delete.html', form = form)
