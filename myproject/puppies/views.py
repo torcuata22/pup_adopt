@@ -6,7 +6,7 @@ from myproject.puppies.forms import AddForm, DelForm
 puppies_blueprints = Blueprint('puppies', __name__, template_folder='templates/puppies') 
 
 @puppies_blueprints.route('/add', methods=['GET','POST'])
-def add_pup():
+def add():
     form = AddForm()
     if form.validate_on_submit():  #worked with validate()
         name = form.name.data
@@ -20,13 +20,13 @@ def add_pup():
 
 
 @puppies_blueprints.route('/list')
-def list_pup():
+def list():
     puppies = Puppy.query.all()
     return render_template('list.html', puppies=puppies)
 
 
 @puppies_blueprints.route('/delete', methods=['GET','POST'])
-def del_pup():
+def delete():
     form = DelForm()
     if form.validate_on_submit():
         id = form.id.data

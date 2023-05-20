@@ -3,7 +3,7 @@
 <div class="jumbotron">
     <h1>Have a puppy looking for a home?</h1>
     <p>Add a new puppy to our database</p>
-    <form class="" action="{{url_for('add_pup')}}" method="POST">
+    <form class="" action="{{url_for('puppies.add')}}" method="POST">
         {{form.hidden_tag()}}
         {{form.name.label}} {{form.name()}}
         {{form.submit()}}

@@ -11,3 +11,6 @@ if __name__ == '__main__':
 
 #set up database (in terminal, type):
 #flask db init
+#flask db migrate -m "message here"
+#flask db upgrade (makes the migrations)
+#To run the application: python app.py
